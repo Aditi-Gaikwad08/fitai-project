@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}AI Dietician{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>🥗 AI Dietician</h1>
+  <p>Enter your details to calculate BMI and get a personalised diet plan.</p>
+</div>
+
+<div class="two-col">
+
+  <!-- ── Form Card ──────────────────────────────────────── -->
+  <div class="card card-green">
+    <h2>Your Details</h2>
+    <form method="POST" action="/diet">
+
+      <div class="form-group">
+        <label class="form-label" for="weight">Weight (kg)</label>
+        <input class="form-control" type="number" id="weight" name="weight"
+               step="0.1" min="30" max="250" placeholder="e.g. 70" required
+               value="{{ request.form.get('weight', '') }}">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="height">Height (cm)</label>
+        <input class="form-control" type="number" id="height" name="height"
+               step="0.1" min="100" max="260" placeholder="e.g. 175" required
+               value="{{ request.form.get('height', '') }}">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="goal">Fitness Goal</label>
+        <select class="form-control" id="goal" name="goal" required>
+          <option value="" disabled {% if not request.form.get('goal') %}selected{% endif %}>Select your goal…</option>
+          <option value="lose"     {% if request.form.get('goal') == 'lose'     %}selected{% endif %}>🔥 Lose Weight</option>
+          <option value="gain"     {% if request.form.get('goal') == 'gain'     %}selected{% endif %}>💪 Gain Muscle</option>
+          <option value="maintain" {% if request.form.get('goal') == 'maintain' %}selected{% endif %}>⚖️ Maintain Weight</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-green btn-full btn-lg">
+        Calculate My Plan →
+      </button>
+    </form>
+
+    <!-- BMI Reference table -->
+    <hr class="divider">
+    <h3 style="margin-bottom:0.8rem;font-size:1rem;">BMI Reference</h3>
+    <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.83rem;">
+      <div style="display:flex;justify-content:space-between;color:var(--muted)"><span>Underweight</span><span>&lt; 18.5</span></div>
+      <div style="display:flex;justify-content:space-between;color:var(--muted)"><span>Normal</span><span>18.5 – 24.9</span></div>
+      <div style="display:flex;justify-content:space-between;color:var(--muted)"><span>Overweight</span><span>25 – 29.9</span></div>
+      <div style="display:flex;justify-content:space-between;color:var(--muted)"><span>Obese</span><span>≥ 30</span></div>
+    </div>
+  </div>
+
+  <!-- ── Result Card ────────────────────────────────────── -->
+  {% if result and not result.error %}
+  <div class="card card-orange">
+
+    <!-- BMI Display -->
+    <div class="bmi-display">
+      <div class="bmi-circle">
+        <span class="bmi-num">{{ result.bmi }}</span>
+        <span class="bmi-word">BMI</span>
+      </div>
+      <div class="bmi-meta">
+        <h3>{{ result.plan.category }}</h3>
+        <span class="badge badge-orange">Goal: {{ result.goal | capitalize }}</span>
+        <p style="margin-top:0.5rem;font-size:0.85rem;">{{ result.plan.note }}</p>
+      </div>
+    </div>
+
+    <!-- Macros -->
+    <div class="macro-grid">
+      <div class="macro-box">
+        <span class="macro-val">{{ result.plan.calories }}</span>
+        <span class="macro-key">Daily Calories</span>
+      </div>
+      <div class="macro-box">
+        <span class="macro-val">{{ result.plan.protein }}</span>
+        <span class="macro-key">Protein</span>
+      </div>
+      <div class="macro-box">
+        <span class="macro-val">{{ result.plan.carbs }}</span>
+        <span class="macro-key">Carbs</span>
+      </div>
+      <div class="macro-box">
+        <span class="macro-val">{{ result.plan.fats }}</span>
+        <span class="macro-key">Fats</span>
+      </div>
+    </div>
+
+    <!-- Meal Plan -->
+    <h3 style="margin-bottom:0.8rem;">📋 Sample Meal Plan</h3>
+    <div class="meal-list">
+      {% for meal in result.plan.meals %}
+      <div class="meal-item">
+        <span class="meal-dot"></span>
+        <span>{{ meal }}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Avoid -->
+    <h3 style="margin-bottom:0.8rem;">🚫 Avoid These</h3>
+    <div class="avoid-tags">
+      {% for item in result.plan.avoid %}
+      <span class="avoid-tag">{{ item }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% elif result and result.error %}
+  <div class="card">
+    <div class="alert alert-info">⚠️ Error: {{ result.error }}. Please check your inputs.</div>
+  </div>
+
+  {% else %}
+  <div class="card">
+    <div class="empty-state">
+      <div class="empty-icon">🥗</div>
+      <p>Fill in your details and submit to see your personalised diet plan here.</p>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

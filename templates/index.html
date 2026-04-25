@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<section class="hero" style="display:flex;flex-direction:column;justify-content:center;">
+  <div class="hero-eyebrow">AI-Powered Fitness Assistant</div>
+  <h1>TRAIN <span>SMARTER</span><br>NOT HARDER</h1>
+  <p class="hero-sub">
+    Pose detection · Personalised diet plans · Habit tracking · AI coaching.
+    Everything you need in one dashboard.
+  </p>
+  <div class="hero-actions">
+    <a href="/diet"  class="btn btn-green btn-lg">Get Diet Plan →</a>
+    <a href="/habit" class="btn btn-outline btn-lg">Track Habits</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-val">{{ streak }}</span>
+      <span class="hero-stat-label">Day Streak</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">{{ consistency }}%</span>
+      <span class="hero-stat-label">Consistency</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Trainer Launch Card ───────────────────────────────── -->
+<div class="trainer-card">
+  <div class="trainer-icon">📷</div>
+  <div class="trainer-body">
+    <h2>AI Gym Trainer <span class="badge badge-green">WEBCAM</span></h2>
+    <p>Real-time <strong>Bicep Curl Counter</strong> with dual-arm detection, angle calculation, and performance scoring.</p>
+    <ol class="steps-list">
+      <li>Open a terminal in your project folder.</li>
+      <li>Run: <code>python pose_detector.py</code></li>
+      <li>Stand so your full upper body is visible, then curl!</li>
+      <li>Both arms tracked independently. Press <kbd>Q</kbd> to quit.</li>
+    </ol>
+    <div class="angle-chips">
+      <div class="angle-chip">
+        <span class="angle-chip-val">150°+</span>
+        <span class="angle-chip-label">Arm Extended (Down)</span>
+      </div>
+      <div class="angle-chip">
+        <span class="angle-chip-val">&lt;40°</span>
+        <span class="angle-chip-label">Arm Curled (Up)</span>
+      </div>
+      <div class="angle-chip">
+        <span class="angle-chip-val">0–100</span>
+        <span class="angle-chip-label">Performance Score</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Feature Cards ─────────────────────────────────────── -->
+<h2 class="section-title">All Features</h2>
+<div class="feature-grid">
+
+  <a href="/diet" class="feature-card fc-green">
+    <div class="fc-icon fc-icon-green">🥗</div>
+    <h3>AI Dietician</h3>
+    <p>BMI calculation and 12 personalised diet plans based on your goal.</p>
+    <span class="fc-arrow">↗</span>
+  </a>
+
+  <a href="/habit" class="feature-card fc-orange">
+    <div class="fc-icon fc-icon-orange">📅</div>
+    <h3>Habit Tracker</h3>
+    <p>Log daily workouts, view your streak, and track 14-day consistency.</p>
+    <span class="fc-arrow">↗</span>
+  </a>
+
+  <a href="/chat" class="feature-card fc-blue">
+    <div class="fc-icon fc-icon-blue">💬</div>
+    <h3>Gym Buddy AI</h3>
+    <p>Your motivational coach. Ask anything about fitness, diet, or mindset.</p>
+    <span class="fc-arrow">↗</span>
+  </a>
+
+  <div class="feature-card fc-purple">
+    <div class="fc-icon fc-icon-purple">📊</div>
+    <h3>Performance Score</h3>
+    <p>Live quality scoring in the pose detector based on angle accuracy per rep.</p>
+  </div>
+
+</div>
+{% endblock %}

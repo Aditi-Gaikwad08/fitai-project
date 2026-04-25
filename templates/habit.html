@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Habit Tracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>📅 Habit Tracker</h1>
+  <p>Log today's workout and keep your streak alive.</p>
+</div>
+
+{% if message %}
+<div class="alert {% if 'Workout' in message %}alert-success{% else %}alert-info{% endif %}">
+  {% if 'Workout' in message %}✅{% else %}😴{% endif %} {{ message }}
+</div>
+{% endif %}
+
+<div class="two-col">
+
+  <!-- ── Left card: Log + Streak + Consistency ─────────── -->
+  <div class="card card-green">
+    <h2>Log Today</h2>
+    <form method="POST" action="/habit">
+      <div class="radio-options">
+        <label class="radio-option">
+          <input type="radio" name="workout" value="yes" checked>
+          ✅ Yes, I worked out today!
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="workout" value="no">
+          😴 Rest day (needed recovery)
+        </label>
+      </div>
+      <button type="submit" class="btn btn-green btn-full btn-lg">Log It →</button>
+    </form>
+
+    <!-- Streak -->
+    <div class="streak-box">
+      <div class="streak-emoji">🔥</div>
+      <span class="streak-num">{{ streak }}</span>
+      <span class="streak-label">Day Workout Streak</span>
+    </div>
+
+    <!-- Consistency bar -->
+    {% set pct = consistency | float(0) %}
+    <div class="consistency-bar">
+      <div class="consistency-row">
+        <span style="color:var(--muted);font-size:0.82rem;">14-Day Consistency</span>
+        <span class="consistency-pct">{{ pct }}%</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" style="width: {{ (pct | default(0)) ~ '%' }};"></div>
+      </div>
+    </div>
+  </div><!-- end left card -->
+
+  <!-- ── Right card: History ───────────────────────────── -->
+  <div class="card">
+    <h2>Last 14 Days</h2>
+    <ul class="history-list">
+      {% for entry in history %}
+      <li class="history-item">
+        <span class="h-date">{{ entry.date }}</span>
+        <span class="{% if 'Workout' in entry.status %}h-status-done{% elif 'Rest' in entry.status %}h-status-rest{% else %}h-status-empty{% endif %}">
+          {{ entry.status }}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div><!-- end right card -->
+
+</div><!-- end two-col -->
+{% endblock %}

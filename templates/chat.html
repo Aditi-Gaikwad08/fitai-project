@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Gym Buddy{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>💬 Virtual Gym Buddy</h1>
+  <p>Your AI motivational coach — available 24/7. Ask anything about fitness.</p>
+</div>
+
+<div class="chat-wrapper">
+
+  <!-- ── Chat window ──────────────────────────────────── -->
+  <div class="chat-window" id="chatWindow">
+    <!-- Initial bot message -->
+    <div class="msg-row bot">
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">
+        Hey champion! I'm your Gym Buddy. Ask me anything — motivation, diet tips,
+        workout advice, or just tell me how you feel. Try: <em>"I feel lazy"</em> or <em>"help with diet"</em>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Input bar ─────────────────────────────────────── -->
+  <div class="chat-input-bar">
+    <input
+      type="text"
+      id="chatInput"
+      placeholder="Type a message and press Enter…"
+      autocomplete="off"
+      maxlength="300"
+    />
+    <button class="chat-send-btn" id="sendBtn">
+      Send ↗
+    </button>
+  </div>
+
+  <!-- ── Quick chips ────────────────────────────────────── -->
+  <div class="chip-row">
+    <span class="chip" data-msg="I feel lazy today" onclick="sendChip(this)">😴 I feel lazy</span>
+    <span class="chip" data-msg="I don't want to workout" onclick="sendChip(this)">🚫 Skip day?</span>
+    <span class="chip" data-msg="I am tired" onclick="sendChip(this)">😩 I'm tired</span>
+    <span class="chip" data-msg="help with diet" onclick="sendChip(this)">🥗 Diet help</span>
+    <span class="chip" data-msg="I am not seeing results" onclick="sendChip(this)">📉 No results</span>
+    <span class="chip" data-msg="how many sets and reps" onclick="sendChip(this)">🏋️ Sets & reps?</span>
+    <span class="chip" data-msg="motivate me" onclick="sendChip(this)">🔥 Motivate me!</span>
+    <span class="chip" data-msg="I feel pain in my knee" onclick="sendChip(this)">🩹 I feel pain</span>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
+{% endblock %}

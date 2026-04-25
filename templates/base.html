@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}FitAI{% endblock %} — AI Fitness Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ══ NAVBAR ═══════════════════════════════════════════════ -->
+<nav class="navbar">
+  <a href="/" class="nav-brand">⚡ FIT<span>AI</span></a>
+  <ul class="nav-links">
+    <li>
+      <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+        🏠 <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="/diet" class="{% if request.path == '/diet' %}active{% endif %}">
+        🥗 <span>Dietician</span>
+      </a>
+    </li>
+    <li>
+      <a href="/habit" class="{% if request.path == '/habit' %}active{% endif %}">
+        📅 <span>Habits</span>
+      </a>
+    </li>
+    <li>
+      <a href="/chat" class="{% if request.path == '/chat' %}active{% endif %}">
+        💬 <span>Gym Buddy</span>
+        <span class="nav-badge">AI</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- ══ CONTENT ══════════════════════════════════════════════ -->
+<main class="main-content">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════ -->
+<footer class="footer">
+  <span>⚡ FitAI</span>
+  <span class="footer-dot">·</span>
+  <span>AI Gym &amp; Fitness Assistant</span>
+  <span class="footer-dot">·</span>
+  <span>Python · Flask · MediaPipe · OpenCV</span>
+</footer>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
